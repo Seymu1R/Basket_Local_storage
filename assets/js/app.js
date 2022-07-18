@@ -40,5 +40,6 @@ const showCount = () => {
   let basket = JSON.parse(localStorage.getItem("basket"));
   let basketLength = basket.length;
   document.querySelector("#basket-count").innerHTML = basketLength;
+  
 };
 showCount();

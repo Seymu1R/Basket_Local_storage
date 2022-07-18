@@ -4,9 +4,8 @@ let basket = JSON.parse(localStorage.getItem("basket"));
 let removeItem = (e) => {
   let basketarr = JSON.parse(localStorage.getItem("basket"));
   let removedElemet =
-    e.target.parentElement.previousElementSibling.previousElementSibling
-      .previousElementSibling.previousElementSibling.previousElementSibling
-      .firstElementChild.firstElementChild.innerHTML;
+    e.target.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild.innerHTML;
+    console.log(removedElemet);
   let result = basketarr.find((item) => item.productId === removedElemet);
 
   let index = basketarr.indexOf(result);
@@ -16,7 +15,8 @@ let removeItem = (e) => {
     basketarr.splice(index, 1); // 2nd parameter means remove one item only
   }
   e.target.parentElement.parentElement.parentElement.remove();
-  localStorage.setItem("basket",JSON.stringify(basketarr))
+  localStorage.setItem("basket",JSON.stringify(basketarr));
+  showCount();
 };
 basket.forEach((item) => {
   basketElement.innerHTML += `
@@ -53,3 +53,9 @@ basket.forEach((item) => {
 
     `;
 });
+let showCount = () => {
+  let basket = JSON.parse(localStorage.getItem("basket"));
+  let basketLength = basket.length;
+  console.log(document.querySelector("#basket-count-2").innerHTML = basketLength);
+};
+showCount();
