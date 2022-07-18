@@ -4,34 +4,40 @@
 let basketElement = document.querySelector(".basket-content");
 
 let basket = JSON.parse(localStorage.getItem("basket"));
-let editItem = (e, id) => {
-  e.preve;
-  let basketedit = JSON.parse(localStorage.getItem("basket"));
-
+ let  openDisable=(e)=>{
   let inputEdit =
-    e.target.parentElement.previousElementSibling.firstElementChild
-      .firstElementChild;
+  e.target.parentElement.parentElement.querySelector("#input-count");
 
-  inputEdit.removeAttribute("disabled");
+   inputEdit.removeAttribute("disabled");
 
-  if (inputEdit.getAttribute("disabled") == null) {
+ }
+
+let editItem = (e, id) => {
+  
+  let basketedit = JSON.parse(localStorage.getItem("basket"));
+  let inputEdit =
+  e.target.parentElement.parentElement.querySelector("#input-count");
+
+  
     for (let item of basketedit) {
       if (item.productId == id) {
         item.count = inputEdit.value;
 
         localStorage.setItem("basket", JSON.stringify(basketedit));
+        let totalNum=e.target.parentElement.parentElement.parentElement.querySelector("#total-num");
+        totalNum.innerText=item.count*item.productP;
+        
 
-        break;
+        
       }
     }
-  }
+  
 };
 
 let removeItem = (e) => {
   let basketarr = JSON.parse(localStorage.getItem("basket"));
   let removedElemet =
-    e.target.parentElement.parentElement.firstElementChild.firstElementChild
-      .firstElementChild.innerHTML;
+    e.target.parentElement.parentElement.querySelector(".id-span").innerText;
 
   let result = basketarr.find((item) => item.productId === removedElemet);
 
@@ -54,7 +60,7 @@ let removeItem = (e) => {
       <div class=" all row align-items-lg-center">
   
        <div class="col-lg-1">
-          <h4>ID-<span>${item.productId}</span></h4>
+          <h4>ID-<span class="id-span" >${item.productId}</span></h4>
         </div>
         <div class="col-lg-1">
           <img
@@ -70,14 +76,12 @@ let removeItem = (e) => {
         </div>
         
         <div class="col-lg-3">
-          <h6> COUNT: <input  class=" w-25" type="number" disabled id="input-count" value="${
+          <h6> COUNT: <input onchange="editItem(event,${item.productId})" class=" w-25" type="number" disabled id="input-count" min="o" value="${
             item.count
           }" > </h6>
         </div>
         <div class="col-lg-1">
-        <button onclick=editItem(event,${
-          item.productId
-        }) class="btn btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button>
+        <button onclick="openDisable(event)"  class="btn btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button>
       </div>
         <div class="col-lg-1">
           <button onclick=removeItem(event) class="btn btn-danger" ><i class="fa-solid fa-trash"></i></button>
@@ -114,5 +118,5 @@ let showShopingtotal = ()=>{
  }
 
 }
-createContent();
+
 showCount();
