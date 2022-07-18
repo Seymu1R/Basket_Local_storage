@@ -36,6 +36,14 @@
   font-weight: bolder;
   color: #007cc2;
 }
+#header #basket-count-2 {
+  position: absolute;
+  right: 60px;
+  top: -30px;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #007cc2;
+}
 
 .all img {
   width: 100%;
@@ -65,5 +73,9 @@
   color: #007cc2;
 }
 .basket-content #total #total-num {
+  color: red;
+}
+
+#shoping-price {
   color: red;
 }/*# sourceMappingURL=style.css.map */
