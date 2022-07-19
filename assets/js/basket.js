@@ -65,6 +65,8 @@ let removeItem = (e) => {
   }
   e.target.parentElement.parentElement.parentElement.remove();
   localStorage.setItem("basket", JSON.stringify(basketarr));
+  showShopingtotal();
+  basketLength();
 
   showCount();
 };
@@ -130,6 +132,16 @@ let showShopingtotal = (e) => {
     document.querySelector("#shoping-price").innerText = sumShoping;
   }
 };
+
+let basketLength =()=>{
+  let basket = JSON.parse(localStorage.getItem("basket"));
+  if (basket.length===0) {
+    document.querySelector(".alert").classList.remove("d-none");
+    document.querySelector(".sum").classList.add("d-none");
+
+    }
+  }
+basketLength();
 showShopingtotal();
 
 showCount();
