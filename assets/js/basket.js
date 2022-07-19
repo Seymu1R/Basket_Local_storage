@@ -4,38 +4,29 @@ let basketElement = document.querySelector(".basket-content");
 let basket = JSON.parse(localStorage.getItem("basket"));
 //method for disable or enable for change count
 let openDisable = (e) => {
-  let inputEdit =
-    e.target.parentElement.parentElement.querySelector("#input-count");
+  
+    let parent=e.target.parentElement.parentElement;
+    
+    if (e.target.classList.contains("fa-solid")) {
+      parent = e.target.parentElement.parentElement.parentElement;
+      
+    }
+   let inputEdit = parent.querySelector("#input-count");
 
   inputEdit.removeAttribute("disabled");
 };
-//edits for change count of products olso change total price of product and 
+//edits for change count of products olso change total price of product and
 let editItem = (e, id) => {
   let basketedit = JSON.parse(localStorage.getItem("basket"));
-  let inputEdit =
-    e.target.parentElement.parentElement.querySelector("#input-count");
-    if (inputEdit.value<0) {
-      inputEdit.value=1;
-      if (inputEdit.value=1) {
-        for (let item of basketedit) {
-          if (item.productId == id) {
-            item.count = inputEdit.value;
-      
-            localStorage.setItem("basket", JSON.stringify(basketedit));
-            let totalNum =
-              e.target.parentElement.parentElement.parentElement.querySelector(
-                "#total-num"
-              );
-            totalNum.innerText = item.count * item.productP;
-          }}
-      }
-      
-    }
-    else{
+  let inputEdit = e.target.parentElement.parentElement.querySelector("#input-count");   
+
+  if (inputEdit.value < 0) {
+    inputEdit.value = 1;
+    if ((inputEdit.value = 1)) {
       for (let item of basketedit) {
         if (item.productId == id) {
           item.count = inputEdit.value;
-    
+
           localStorage.setItem("basket", JSON.stringify(basketedit));
           let totalNum =
             e.target.parentElement.parentElement.parentElement.querySelector(
@@ -44,16 +35,33 @@ let editItem = (e, id) => {
           totalNum.innerText = item.count * item.productP;
         }
       }
-
     }
+  } else {
+    for (let item of basketedit) {
+      if (item.productId == id) {
+        item.count = inputEdit.value;
 
- 
+        localStorage.setItem("basket", JSON.stringify(basketedit));
+        let totalNum =
+          e.target.parentElement.parentElement.parentElement.querySelector(
+            "#total-num"
+          );
+        totalNum.innerText = item.count * item.productP;
+      }
+    }
+  }
 };
 // method for  remove  adding items
 let removeItem = (e) => {
+  console.log(e.target);
   let basketarr = JSON.parse(localStorage.getItem("basket"));
-  let removedElemet =
-    e.target.parentElement.parentElement.querySelector(".id-span").innerText;
+  let parent = e.target.parentElement.parentElement;
+
+  if (e.target.classList.contains("fa-trash")) {
+    parent = e.target.parentElement.parentElement.parentElement;
+  }
+
+  let removedElemet = parent.querySelector(".id-span").innerText;
 
   let result = basketarr.find((item) => item.productId === removedElemet);
 
@@ -63,7 +71,7 @@ let removeItem = (e) => {
     // only splice array when item is found
     basketarr.splice(index, 1); // 2nd parameter means remove one item only
   }
-  e.target.parentElement.parentElement.parentElement.remove();
+  parent.parentElement.remove();
   localStorage.setItem("basket", JSON.stringify(basketarr));
   showShopingtotal();
   basketLength();
@@ -104,7 +112,9 @@ basket.forEach((item) => {
         <button onclick="openDisable(event)"  class="btn btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button>
       </div>
         <div class="col-lg-1">
-          <button onclick=removeItem(event) class="btn btn-danger" ><i class="fa-solid fa-trash"></i></button>
+          <button class="btn btn-danger" onclick="removeItem(event)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
         </div>
         <div class="col-lg-2">
           <h6 id="total" >TOTAL: <span id="total-num" >${
@@ -133,14 +143,13 @@ let showShopingtotal = (e) => {
   }
 };
 
-let basketLength =()=>{
+let basketLength = () => {
   let basket = JSON.parse(localStorage.getItem("basket"));
-  if (basket.length===0) {
+  if (basket.length === 0) {
     document.querySelector(".alert").classList.remove("d-none");
     document.querySelector(".sum").classList.add("d-none");
-
-    }
   }
+};
 basketLength();
 showShopingtotal();
 
