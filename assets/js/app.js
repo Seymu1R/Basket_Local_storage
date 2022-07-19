@@ -1,10 +1,11 @@
 "use strict";
 let btns = document.querySelectorAll(".btn");
 let basketContent = document.getElementById("basket-action");
-
+//create empty array localstorage
 if (localStorage.getItem("basket") === null) {
   localStorage.setItem("basket", JSON.stringify([]));
 }
+//selecting  item  adding basket
 for (const btn of btns) {
   btn.addEventListener("click", (e) => {
     let productName =
@@ -35,7 +36,7 @@ for (const btn of btns) {
     showCount();
   });
 }
-
+// show count item count of basket
 const showCount = () => {
   let basket = JSON.parse(localStorage.getItem("basket"));
   let basketLength = basket.length;

@@ -1,39 +1,55 @@
 "use strict";
 
-
 let basketElement = document.querySelector(".basket-content");
-
 let basket = JSON.parse(localStorage.getItem("basket"));
- let  openDisable=(e)=>{
+//method for disable or enable for change count
+let openDisable = (e) => {
   let inputEdit =
-  e.target.parentElement.parentElement.querySelector("#input-count");
+    e.target.parentElement.parentElement.querySelector("#input-count");
 
-   inputEdit.removeAttribute("disabled");
-
- }
-
+  inputEdit.removeAttribute("disabled");
+};
+//edits for change count of products olso change total price of product and 
 let editItem = (e, id) => {
-  
   let basketedit = JSON.parse(localStorage.getItem("basket"));
   let inputEdit =
-  e.target.parentElement.parentElement.querySelector("#input-count");
-
-  
-    for (let item of basketedit) {
-      if (item.productId == id) {
-        item.count = inputEdit.value;
-
-        localStorage.setItem("basket", JSON.stringify(basketedit));
-        let totalNum=e.target.parentElement.parentElement.parentElement.querySelector("#total-num");
-        totalNum.innerText=item.count*item.productP;
-        
-
-        
+    e.target.parentElement.parentElement.querySelector("#input-count");
+    if (inputEdit.value<0) {
+      inputEdit.value=1;
+      if (inputEdit.value=1) {
+        for (let item of basketedit) {
+          if (item.productId == id) {
+            item.count = inputEdit.value;
+      
+            localStorage.setItem("basket", JSON.stringify(basketedit));
+            let totalNum =
+              e.target.parentElement.parentElement.parentElement.querySelector(
+                "#total-num"
+              );
+            totalNum.innerText = item.count * item.productP;
+          }}
       }
+      
     }
-  
-};
+    else{
+      for (let item of basketedit) {
+        if (item.productId == id) {
+          item.count = inputEdit.value;
+    
+          localStorage.setItem("basket", JSON.stringify(basketedit));
+          let totalNum =
+            e.target.parentElement.parentElement.parentElement.querySelector(
+              "#total-num"
+            );
+          totalNum.innerText = item.count * item.productP;
+        }
+      }
 
+    }
+
+ 
+};
+// method for  remove  adding items
 let removeItem = (e) => {
   let basketarr = JSON.parse(localStorage.getItem("basket"));
   let removedElemet =
@@ -53,9 +69,9 @@ let removeItem = (e) => {
   showCount();
 };
 
-
-  basket.forEach((item) => {
-    basketElement.innerHTML += `
+//cotent adding dom
+basket.forEach((item) => {
+  basketElement.innerHTML += `
       <div class="container">
       <div class=" all row align-items-lg-center">
   
@@ -76,9 +92,11 @@ let removeItem = (e) => {
         </div>
         
         <div class="col-lg-3">
-          <h6> COUNT: <input onchange="editItem(event,${item.productId})" class=" w-25" type="number" disabled id="input-count" min="o" value="${
-            item.count
-          }" > </h6>
+          <h6> COUNT: <input onchange="editItem(event,${
+            item.productId
+          }),showShopingtotal(event)" class=" w-25" type="number" disabled id="input-count" min="o" value="${
+    item.count
+  }" > </h6>
         </div>
         <div class="col-lg-1">
         <button onclick="openDisable(event)"  class="btn btn-primary" ><i class="fa-solid fa-pen-to-square"></i></button>
@@ -95,28 +113,23 @@ let removeItem = (e) => {
     </div>
   
       `;
-
-      
-  });
+});
+// method for showing
 let showCount = () => {
   let basket = JSON.parse(localStorage.getItem("basket"));
   let basketLength = basket.length;
   document.querySelector("#basket-count-2").innerHTML = basketLength;
 };
-
-var reaload = function () {
-  window.location.reload();
-};
-let showShopingtotal = ()=>{
+// method for show total shoping price
+let showShopingtotal = (e) => {
   let basket = JSON.parse(localStorage.getItem("basket"));
- for (let item of basket) {
-  let sum = (item.count)*item.productP;
   let sumShoping = 0;
-  sumShoping+=sum;
-  console.log(sumShoping);
-  
- }
-
-}
+  for (let item of basket) {
+    let sum = item.count * item.productP;
+    sumShoping += sum;
+    document.querySelector("#shoping-price").innerText = sumShoping;
+  }
+};
+showShopingtotal();
 
 showCount();
